@@ -25,6 +25,9 @@ interface StylePanelProps {
   style: ToolStyle
   selectedAnnotations: readonly Annotation[]
   onChange: (patch: Partial<ToolStyle>) => void
+  /** Bündelt Slider-Ziehen zu einem einzigen Undo-Schritt */
+  onGestureStart: () => void
+  onGestureEnd: () => void
 }
 
 export function StylePanel({
@@ -32,6 +35,8 @@ export function StylePanel({
   style,
   selectedAnnotations,
   onChange,
+  onGestureStart,
+  onGestureEnd,
 }: StylePanelProps) {
   const selectionHasStroke = selectedAnnotations.some((a) => 'strokeWidth' in a)
   const selectionHasFont = selectedAnnotations.some((a) => 'fontSize' in a)
@@ -90,6 +95,8 @@ export function StylePanel({
           <Slider
             value={style.strokeWidth}
             onChange={(strokeWidth) => onChange({ strokeWidth })}
+            onDragStart={onGestureStart}
+            onDragEnd={onGestureEnd}
             aria-label="Linienstärke"
             {...STROKE_WIDTH_RANGE}
           />
@@ -109,6 +116,8 @@ export function StylePanel({
           <Slider
             value={style.fontSize}
             onChange={(fontSize) => onChange({ fontSize })}
+            onDragStart={onGestureStart}
+            onDragEnd={onGestureEnd}
             aria-label="Schriftgröße"
             {...FONT_SIZE_RANGE}
           />
@@ -125,6 +134,8 @@ export function StylePanel({
         <Slider
           value={style.opacity}
           onChange={(opacity) => onChange({ opacity })}
+          onDragStart={onGestureStart}
+          onDragEnd={onGestureEnd}
           aria-label="Deckkraft"
           {...OPACITY_RANGE}
         />

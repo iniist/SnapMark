@@ -7,6 +7,9 @@ interface SliderProps {
   max: number
   step: number
   onChange: (value: number) => void
+  /** Beginn/Ende des Ziehens – z. B. um Undo-Schritte zu bündeln */
+  onDragStart?: () => void
+  onDragEnd?: () => void
   className?: string
   'aria-label'?: string
 }
@@ -18,6 +21,8 @@ export function Slider({
   max,
   step,
   onChange,
+  onDragStart,
+  onDragEnd,
   className,
   ...aria
 }: SliderProps) {
@@ -35,6 +40,9 @@ export function Slider({
       max={max}
       step={step}
       onChange={handleChange}
+      onPointerDown={onDragStart}
+      onPointerUp={onDragEnd}
+      onPointerCancel={onDragEnd}
       className={cn(
         'h-1.5 w-full cursor-pointer appearance-none rounded-full bg-secondary accent-primary',
         '[&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary [&::-webkit-slider-thumb]:shadow',

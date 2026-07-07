@@ -92,6 +92,7 @@ export function EditorCanvas({
   }, [image, visibleAnnotations, editor.selectedIds, viewport.viewport, canvasSize])
 
   // Mausrad-Zoom braucht einen non-passive Listener
+  const { zoomAt } = viewport
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -99,14 +100,14 @@ export function EditorCanvas({
       event.preventDefault()
       const rect = canvas.getBoundingClientRect()
       const factor = event.deltaY < 0 ? ZOOM_WHEEL_FACTOR : 1 / ZOOM_WHEEL_FACTOR
-      viewport.zoomAt(
+      zoomAt(
         { x: event.clientX - rect.left, y: event.clientY - rect.top },
         factor,
       )
     }
     canvas.addEventListener('wheel', handleWheel, { passive: false })
     return () => canvas.removeEventListener('wheel', handleWheel)
-  }, [viewport])
+  }, [zoomAt])
 
   const commitTextEdit = useCallback(
     (text: string) => {

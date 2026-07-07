@@ -51,6 +51,7 @@ export interface PointerHandlers {
   onPointerDown: (event: PointerEvent<HTMLCanvasElement>) => void
   onPointerMove: (event: PointerEvent<HTMLCanvasElement>) => void
   onPointerUp: (event: PointerEvent<HTMLCanvasElement>) => void
+  onPointerCancel: (event: PointerEvent<HTMLCanvasElement>) => void
   onDoubleClick: (event: MouseEvent<HTMLCanvasElement>) => void
 }
 
@@ -210,7 +211,13 @@ export function usePointerInteractions({
   )
 
   return {
-    handlers: { onPointerDown, onPointerMove, onPointerUp, onDoubleClick },
+    handlers: {
+      onPointerDown,
+      onPointerMove,
+      onPointerUp,
+      onPointerCancel: onPointerUp,
+      onDoubleClick,
+    },
     isPanning,
   }
 }

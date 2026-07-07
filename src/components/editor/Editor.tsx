@@ -8,6 +8,7 @@ import {
   isClipboardImageSupported,
   renderToPngBlob,
 } from '@/lib/export'
+import { useAuth } from '@/hooks/useAuth'
 import { useEditorState } from '@/hooks/useEditorState'
 import { useViewport } from '@/hooks/useViewport'
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts'
@@ -31,6 +32,7 @@ export function Editor({ image, imageBlob, initialProject, onNewImage }: EditorP
   const editor = useEditorState()
   const navigate = useNavigate()
   const { toast } = useToast()
+  const { user } = useAuth()
   const [title, setTitle] = useState(initialProject?.title ?? 'Unbenanntes Projekt')
   const [shareOpen, setShareOpen] = useState(false)
 
@@ -147,7 +149,7 @@ export function Editor({ image, imageBlob, initialProject, onNewImage }: EditorP
         onSave={() => void handleSave()}
         canShare={canSave && project !== null}
         onShare={() => setShareOpen(true)}
-        canDuplicate={project !== null && canSave}
+        canDuplicate={project !== null && user !== null}
         onDuplicate={() => void handleDuplicate()}
       />
 
@@ -169,6 +171,8 @@ export function Editor({ image, imageBlob, initialProject, onNewImage }: EditorP
             style={editor.style}
             selectedAnnotations={selectedAnnotations}
             onChange={editor.updateStyle}
+            onGestureStart={editor.history.beginGesture}
+            onGestureEnd={editor.history.endGesture}
           />
         </div>
       </div>
