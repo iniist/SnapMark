@@ -4,6 +4,7 @@ import {
   Copy,
   CopyPlus,
   Download,
+  FolderOpen,
   ImagePlus,
   Loader2,
   LogIn,
@@ -161,6 +162,17 @@ export function TopBar(props: TopBarProps) {
         >
           <ImagePlus />
         </Button>
+        {user ? (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate('/projekte')}
+            aria-label="Meine Projekte"
+            title="Meine Projekte"
+          >
+            <FolderOpen />
+          </Button>
+        ) : null}
         {props.canDuplicate ? (
           <Button
             variant="ghost"
