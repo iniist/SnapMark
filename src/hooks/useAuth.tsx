@@ -53,7 +53,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           email,
           options: { emailRedirectTo: `${window.location.origin}/editor` },
         })
-        if (error) throw new Error(error.message)
+        if (error) {
+          // Registrierung ist auf dieser Instanz ggf. auf eingeladene
+          // Benutzer beschränkt (Supabase: "Allow new users to sign up" aus)
+          if (error.message.toLowerCase().includes('signups not allowed')) {
+            throw new Error(
+              'Diese E-Mail-Adresse ist noch nicht freigeschaltet. Bitte lass dich vom Admin einladen.',
+            )
+          }
+          throw new Error(error.message)
+        }
       },
       signOut: async () => {
         if (!supabase) return
