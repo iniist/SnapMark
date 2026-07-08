@@ -27,7 +27,11 @@ export function AppHeader() {
           {theme === 'dark' ? <Sun /> : <Moon />}
         </Button>
         {isConfigured && !user ? (
-          <Button variant="ghost" onClick={() => navigate('/login')}>
+          <Button
+            variant="ghost"
+            onClick={() => navigate('/login')}
+            title="Anmelden – nur nötig zum Speichern & Teilen von Projekten"
+          >
             <LogIn /> Anmelden
           </Button>
         ) : null}

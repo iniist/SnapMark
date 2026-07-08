@@ -61,6 +61,11 @@ export function LoginPage() {
               <p className="mt-1 text-sm text-muted-foreground">
                 Ohne Passwort – wir senden dir einen Magic Link per E-Mail.
               </p>
+              <p className="mt-3 rounded-lg bg-muted/60 p-3 text-xs text-muted-foreground">
+                Die Anmeldung brauchst du nur, um Projekte online zu speichern
+                und per Link zu teilen. Screenshots bearbeiten und als PNG
+                exportieren funktioniert auch ohne Konto.
+              </p>
               {isConfigured ? (
                 <form onSubmit={(event) => void handleSubmit(event)} className="mt-6 space-y-4">
                   <div className="space-y-2">

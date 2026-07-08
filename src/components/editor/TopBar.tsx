@@ -210,7 +210,12 @@ export function TopBar(props: TopBarProps) {
           </Button>
         ) : null}
         {isConfigured && !user ? (
-          <Button size="sm" variant="secondary" onClick={() => navigate('/login')}>
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={() => navigate('/login')}
+            title="Anmelden – nur nötig zum Speichern & Teilen von Projekten"
+          >
             <LogIn /> Anmelden
           </Button>
         ) : null}
