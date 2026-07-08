@@ -1,4 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="7" fill="#3b82f6"/>
-  <path d="M18 5 9 18h5.5L14 27l9-13h-5.5L18 5z" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="15%" y1="0%" x2="70%" y2="100%">
+      <stop offset="0%" stop-color="#D1E6C3"/>
+      <stop offset="100%" stop-color="#55CDED"/>
+    </linearGradient>
+    <clipPath id="c"><circle cx="32" cy="32" r="25"/></clipPath>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="#081527"/>
+  <circle cx="32" cy="32" r="25" fill="url(#g)"/>
+  <g clip-path="url(#c)" transform="rotate(-16 32 32)" fill="none" stroke="#081527" stroke-width="3.4" stroke-linecap="round">
+    <path d="M0 14 Q 10 9 20 14 T 40 14 T 60 14 T 80 14"/>
+    <path d="M-4 24 Q 6 19 16 24 T 36 24 T 56 24 T 76 24"/>
+    <path d="M0 34 Q 10 29 20 34 T 40 34 T 60 34 T 80 34"/>
+    <path d="M-4 44 Q 6 39 16 44 T 36 44 T 56 44 T 76 44"/>
+    <path d="M0 54 Q 10 49 20 54 T 40 54 T 60 54 T 80 54"/>
+  </g>
 </svg>

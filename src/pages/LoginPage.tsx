@@ -54,8 +54,8 @@ export function LoginPage() {
             </div>
           ) : (
             <>
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-                <Wand2 className="h-6 w-6 text-primary" />
+              <span className="bg-gradient-cool flex h-12 w-12 items-center justify-center rounded-xl">
+                <Wand2 className="h-6 w-6 text-[#0F397A]" />
               </span>
               <h1 className="mt-5 text-xl font-semibold">Anmelden</h1>
               <p className="mt-1 text-sm text-muted-foreground">

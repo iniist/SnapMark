@@ -60,18 +60,18 @@ function HeroMockup() {
           height="38"
           rx="6"
           fill="none"
-          stroke="#ef4444"
+          stroke="#FF5C4C"
           strokeWidth="4"
         />
         <path
           d="M 560 320 Q 620 300 610 120"
           fill="none"
-          stroke="#3b82f6"
+          stroke="#55CDED"
           strokeWidth="5"
           strokeLinecap="round"
         />
-        <path d="M 610 120 l -14 22 l 24 4 z" fill="#3b82f6" />
-        <circle cx="120" cy="220" r="22" fill="#22c55e" />
+        <path d="M 610 120 l -14 22 l 24 4 z" fill="#55CDED" />
+        <circle cx="120" cy="220" r="22" fill="#A80E2E" />
         <text
           x="120"
           y="228"
@@ -105,9 +105,24 @@ export function LandingPage() {
     <div className="min-h-full">
       <AppHeader />
       <main>
-        <section className="px-6 pb-8 pt-20 text-center md:pt-28">
+        <section className="relative overflow-hidden px-6 pb-8 pt-20 text-center md:pt-28">
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+            <div
+              className="hero-blob -left-24 top-8 h-80 w-80"
+              style={{ background: '#55CDED' }}
+            />
+            <div
+              className="hero-blob -right-20 top-40 h-96 w-96"
+              style={{ background: '#FF5C4C', animationDelay: '-6s' }}
+            />
+            <div
+              className="hero-blob left-1/3 top-72 h-72 w-72"
+              style={{ background: '#580738', animationDelay: '-11s' }}
+            />
+          </div>
           <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-tight md:text-6xl">
-            Markiere Screenshots in Sekunden.
+            Markiere Screenshots{' '}
+            <span className="text-gradient">in Sekunden.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
             Pfeile, Texte und Markierungen direkt im Browser. Kein Photoshop.
@@ -124,9 +139,12 @@ export function LandingPage() {
 
         <section className="mx-auto grid max-w-5xl gap-6 px-6 py-24 md:grid-cols-3">
           {FEATURES.map(({ icon: Icon, title, description }) => (
-            <div key={title} className="rounded-2xl border bg-card p-8 text-left">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
-                <Icon className="h-5 w-5 text-primary" />
+            <div
+              key={title}
+              className="group rounded-2xl border bg-card p-8 text-left transition-all duration-300 hover:-translate-y-1.5 hover:border-[#55CDED]/60 hover:shadow-[0_16px_40px_-16px_rgba(85,205,237,0.45)]"
+            >
+              <span className="bg-gradient-cool flex h-11 w-11 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
+                <Icon className="h-5 w-5 text-[#0F397A]" />
               </span>
               <h2 className="mt-5 text-lg font-semibold">{title}</h2>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">

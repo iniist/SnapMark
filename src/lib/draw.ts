@@ -228,7 +228,7 @@ export function drawSelectionOutline(
 ): void {
   const padding = 6 / scale
   ctx.save()
-  ctx.strokeStyle = '#3b82f6'
+  ctx.strokeStyle = '#55CDED'
   ctx.lineWidth = 1.5 / scale
   ctx.setLineDash([5 / scale, 4 / scale])
   ctx.strokeRect(

@@ -15,11 +15,11 @@ import {
   Share2,
   Sun,
   Undo2,
-  Zap,
   ZoomIn,
   ZoomOut,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Logo } from '@/components/Logo'
 import { Separator } from '@/components/ui/separator'
 import { useAuth } from '@/hooks/useAuth'
 import { useTheme } from '@/hooks/useTheme'
@@ -81,9 +81,9 @@ export function TopBar(props: TopBarProps) {
     <header className="flex h-14 shrink-0 items-center gap-2 border-b bg-card px-3">
       <Link
         to="/"
-        className="flex items-center gap-1.5 rounded-md px-2 py-1 font-semibold tracking-tight hover:bg-accent"
+        className="group flex items-center gap-1.5 rounded-md px-2 py-1 font-semibold tracking-tight hover:bg-accent"
       >
-        <Zap className="h-4 w-4 text-primary" fill="currentColor" />
+        <Logo className="h-5 w-5 transition-transform duration-300 group-hover:rotate-[14deg]" />
         Orivo
       </Link>
       <Separator orientation="vertical" className="h-6" />
