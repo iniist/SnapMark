@@ -47,10 +47,12 @@ Exportieren funktionieren, Speichern/Teilen sind deaktiviert.
 
 ## Supabase einrichten
 
-1. Neues Projekt auf [supabase.com](https://supabase.com) anlegen.
+1. Ein Supabase-Projekt anlegen oder ein bestehendes verwenden – alle
+   SnapMark-Objekte tragen ein `snapmark`-Präfix und kollidieren nicht mit
+   anderen Apps in derselben Instanz.
 2. Inhalt von [`supabase/schema.sql`](supabase/schema.sql) im SQL-Editor
-   ausführen (legt `profiles`, `projects`, RLS-Policies und den
-   Storage-Bucket `images` an).
+   ausführen (legt `snapmark_profiles`, `snapmark_projects`, RLS-Policies
+   und den Storage-Bucket `snapmark-images` an).
 3. Unter **Authentication → URL Configuration** die Site-URL (z. B.
    `https://deine-app.netlify.app`) und Redirect-URLs eintragen.
 4. `VITE_SUPABASE_URL` und `VITE_SUPABASE_ANON_KEY` (Settings → API) als
@@ -85,11 +87,11 @@ src/
 
 ## Datenmodell
 
-| Tabelle    | Spalten                                                                 |
-| ---------- | ----------------------------------------------------------------------- |
-| `profiles` | `id`, `created_at`                                                       |
-| `projects` | `id`, `owner_id`, `title`, `image_path`, `annotations_json`, `is_public`, `created_at`, `updated_at` |
+| Tabelle             | Spalten                                                                 |
+| ------------------- | ----------------------------------------------------------------------- |
+| `snapmark_profiles` | `id`, `created_at`                                                       |
+| `snapmark_projects` | `id`, `owner_id`, `title`, `image_path`, `annotations_json`, `is_public`, `created_at`, `updated_at` |
 
-Bilder liegen im öffentlichen Storage-Bucket `images/` unter
+Bilder liegen im öffentlichen Storage-Bucket `snapmark-images/` unter
 `{owner_id}/{project_id}.{ext}`. Die Pfade enthalten unerratbare UUIDs;
 Projekt-Metadaten und Annotationen schützt Row Level Security.

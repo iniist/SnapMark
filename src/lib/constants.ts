@@ -46,4 +46,7 @@ export const RECENT_PROJECTS_KEY = 'snapmark.recent-projects'
 export const THEME_STORAGE_KEY = 'snapmark.theme'
 export const MAX_RECENT_PROJECTS = 8
 
-export const STORAGE_BUCKET = 'images'
+// Mit "snapmark"-Präfix, damit sich die App eine Supabase-Instanz
+// konfliktfrei mit anderen Projekten teilen kann
+export const STORAGE_BUCKET = 'snapmark-images'
+export const PROJECTS_TABLE = 'snapmark_projects'

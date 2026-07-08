@@ -1,5 +1,5 @@
 import type { Annotation, ProjectRecord } from './types'
-import { STORAGE_BUCKET } from './constants'
+import { PROJECTS_TABLE, STORAGE_BUCKET } from './constants'
 import { requireSupabase } from './supabase'
 import { createId } from './utils'
 
@@ -41,7 +41,7 @@ export async function saveProject(input: SaveProjectInput): Promise<ProjectRecor
   }
 
   const { data, error } = await client
-    .from('projects')
+    .from(PROJECTS_TABLE)
     .upsert({
       id: projectId,
       owner_id: input.ownerId,
@@ -60,7 +60,7 @@ export async function saveProject(input: SaveProjectInput): Promise<ProjectRecor
 export async function loadProject(projectId: string): Promise<ProjectRecord> {
   const client = requireSupabase()
   const { data, error } = await client
-    .from('projects')
+    .from(PROJECTS_TABLE)
     .select()
     .eq('id', projectId)
     .maybeSingle()
@@ -75,7 +75,7 @@ export async function loadProject(projectId: string): Promise<ProjectRecord> {
 export async function listOwnProjects(ownerId: string): Promise<ProjectRecord[]> {
   const client = requireSupabase()
   const { data, error } = await client
-    .from('projects')
+    .from(PROJECTS_TABLE)
     .select()
     .eq('owner_id', ownerId)
     .order('updated_at', { ascending: false })
@@ -90,7 +90,7 @@ export async function setProjectVisibility(
 ): Promise<void> {
   const client = requireSupabase()
   const { error } = await client
-    .from('projects')
+    .from(PROJECTS_TABLE)
     .update({ is_public: isPublic, updated_at: new Date().toISOString() })
     .eq('id', projectId)
   if (error) throw new Error(`Sichtbarkeit konnte nicht geändert werden: ${error.message}`)
@@ -99,7 +99,7 @@ export async function setProjectVisibility(
 export async function deleteProject(project: ProjectRecord): Promise<void> {
   const client = requireSupabase()
   await client.storage.from(STORAGE_BUCKET).remove([project.image_path])
-  const { error } = await client.from('projects').delete().eq('id', project.id)
+  const { error } = await client.from(PROJECTS_TABLE).delete().eq('id', project.id)
   if (error) throw new Error(`Projekt konnte nicht gelöscht werden: ${error.message}`)
 }
 
