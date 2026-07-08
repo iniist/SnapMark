@@ -10,6 +10,7 @@ import {
   LogIn,
   LogOut,
   Maximize,
+  MoreVertical,
   Moon,
   Redo2,
   Save,
@@ -21,6 +22,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Logo } from '@/components/Logo'
+import { Menu, MenuItem, MenuSeparator } from '@/components/ui/menu'
 import { Separator } from '@/components/ui/separator'
 import { useAuth } from '@/hooks/useAuth'
 import { useTheme } from '@/hooks/useTheme'
@@ -52,23 +54,12 @@ interface TopBarProps {
 }
 
 function SaveLabel({ state }: { state: SaveState }) {
-  if (state === 'saving') {
-    return (
-      <>
-        <Loader2 className="animate-spin" /> Speichert…
-      </>
-    )
-  }
-  if (state === 'saved') {
-    return (
-      <>
-        <Check /> Gespeichert
-      </>
-    )
-  }
+  const Icon = state === 'saving' ? Loader2 : state === 'saved' ? Check : Save
+  const text = state === 'saving' ? 'Speichert…' : state === 'saved' ? 'Gespeichert' : 'Speichern'
   return (
     <>
-      <Save /> Speichern
+      <Icon className={state === 'saving' ? 'animate-spin' : undefined} />
+      <span className="hidden sm:inline">{text}</span>
     </>
   )
 }
@@ -79,24 +70,24 @@ export function TopBar(props: TopBarProps) {
   const navigate = useNavigate()
 
   return (
-    <header className="flex h-14 shrink-0 items-center gap-2 border-b bg-card px-3">
+    <header className="flex h-14 shrink-0 items-center gap-1 border-b bg-card px-2 sm:gap-2 sm:px-3">
       <Link
         to="/"
-        className="group flex items-center gap-1.5 rounded-md px-2 py-1 font-semibold tracking-tight hover:bg-accent"
+        className="group flex shrink-0 items-center gap-1.5 rounded-md px-1.5 py-1 font-semibold tracking-tight hover:bg-accent sm:px-2"
       >
         <Logo className="h-5 w-5 transition-transform duration-300 group-hover:rotate-[14deg]" />
-        Orivo
+        <span className="hidden sm:inline">Orivo</span>
       </Link>
-      <Separator orientation="vertical" className="h-6" />
+      <Separator orientation="vertical" className="hidden h-6 sm:block" />
       <input
         value={props.title}
         onChange={(event) => props.onTitleChange(event.target.value)}
         aria-label="Projekttitel"
         placeholder="Unbenanntes Projekt"
-        className="h-8 w-40 rounded-md bg-transparent px-2 text-sm font-medium outline-none transition-colors hover:bg-accent focus:bg-accent md:w-56"
+        className="h-8 min-w-0 flex-1 rounded-md bg-transparent px-2 text-sm font-medium outline-none transition-colors hover:bg-accent focus:bg-accent md:max-w-56"
       />
 
-      <div className="flex items-center">
+      <div className="flex shrink-0 items-center">
         <Button
           variant="ghost"
           size="icon"
@@ -152,7 +143,8 @@ export function TopBar(props: TopBarProps) {
         </Button>
       </div>
 
-      <div className="ml-auto flex items-center gap-1.5">
+      {/* Vollständige Aktionsleiste ab md */}
+      <div className="ml-auto hidden shrink-0 items-center gap-1.5 md:flex">
         <Button
           variant="ghost"
           size="icon"
@@ -213,11 +205,7 @@ export function TopBar(props: TopBarProps) {
           </Button>
         ) : null}
         {props.canSave ? (
-          <Button
-            size="sm"
-            onClick={props.onSave}
-            disabled={props.saveState === 'saving'}
-          >
+          <Button size="sm" onClick={props.onSave} disabled={props.saveState === 'saving'}>
             <SaveLabel state={props.saveState} />
           </Button>
         ) : null}
@@ -242,6 +230,77 @@ export function TopBar(props: TopBarProps) {
             <LogOut />
           </Button>
         ) : null}
+      </div>
+
+      {/* Kompakte Leiste + Überlaufmenü unter md */}
+      <div className="ml-auto flex shrink-0 items-center gap-1 md:hidden">
+        {props.canSave ? (
+          <Button
+            size="sm"
+            onClick={props.onSave}
+            disabled={props.saveState === 'saving'}
+            aria-label="Speichern"
+          >
+            <SaveLabel state={props.saveState} />
+          </Button>
+        ) : null}
+        <Menu
+          trigger={({ toggle }) => (
+            <Button variant="ghost" size="icon" onClick={toggle} aria-label="Weitere Aktionen">
+              <MoreVertical />
+            </Button>
+          )}
+        >
+          {(close) => (
+            <>
+              <MenuItem onClick={() => { props.onDownload(); close() }}>
+                <Download /> Als PNG herunterladen
+              </MenuItem>
+              {props.copySupported ? (
+                <MenuItem onClick={() => { props.onCopyPng(); close() }}>
+                  <Copy /> In Zwischenablage kopieren
+                </MenuItem>
+              ) : null}
+              {props.canShare ? (
+                <MenuItem onClick={() => { props.onShare(); close() }}>
+                  <Share2 /> Teilen
+                </MenuItem>
+              ) : null}
+              <MenuSeparator />
+              <MenuItem onClick={() => { props.onNewImage(); close() }}>
+                <ImagePlus /> Neues Bild öffnen
+              </MenuItem>
+              {user ? (
+                <MenuItem onClick={() => { navigate('/projekte'); close() }}>
+                  <FolderOpen /> Meine Projekte
+                </MenuItem>
+              ) : null}
+              {props.canDuplicate ? (
+                <MenuItem onClick={() => { props.onDuplicate(); close() }}>
+                  <CopyPlus /> Projekt duplizieren
+                </MenuItem>
+              ) : null}
+              <MenuItem onClick={() => { props.onFitToScreen(); close() }}>
+                <Maximize /> An Bildschirm anpassen
+              </MenuItem>
+              <MenuSeparator />
+              <MenuItem onClick={() => { toggleTheme(); close() }}>
+                {theme === 'dark' ? <Sun /> : <Moon />}
+                {theme === 'dark' ? 'Heller Modus' : 'Dunkler Modus'}
+              </MenuItem>
+              {isConfigured && !user ? (
+                <MenuItem onClick={() => { navigate('/login'); close() }}>
+                  <LogIn /> Anmelden
+                </MenuItem>
+              ) : null}
+              {user ? (
+                <MenuItem onClick={() => { void signOut(); close() }}>
+                  <LogOut /> Abmelden
+                </MenuItem>
+              ) : null}
+            </>
+          )}
+        </Menu>
       </div>
     </header>
   )
