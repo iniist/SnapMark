@@ -80,7 +80,7 @@ export function Editor({ image, imageBlob, initialProject, onNewImage }: EditorP
   const handleDownload = useCallback(async () => {
     try {
       const blob = await renderToPngBlob(image, editor.annotations)
-      downloadBlob(blob, `${title.trim() || 'snapmark'}.png`)
+      downloadBlob(blob, `${title.trim() || 'orivo'}.png`)
     } catch (error) {
       toast(error instanceof Error ? error.message : 'Export fehlgeschlagen.', 'error')
     }

@@ -137,7 +137,7 @@ export function LandingPage() {
         </section>
       </main>
       <footer className="border-t px-6 py-8 text-center text-sm text-muted-foreground">
-        SnapMark – Screenshots annotieren, direkt im Browser.
+        Orivo – Screenshots annotieren, direkt im Browser.
       </footer>
     </div>
   )

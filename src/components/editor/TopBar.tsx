@@ -84,7 +84,7 @@ export function TopBar(props: TopBarProps) {
         className="flex items-center gap-1.5 rounded-md px-2 py-1 font-semibold tracking-tight hover:bg-accent"
       >
         <Zap className="h-4 w-4 text-primary" fill="currentColor" />
-        SnapMark
+        Orivo
       </Link>
       <Separator orientation="vertical" className="h-6" />
       <input
