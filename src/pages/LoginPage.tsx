@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { Loader2, MailCheck, Wand2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { AppHeader } from '@/components/layout/AppHeader'
+import { Footer } from '@/components/layout/Footer'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/toaster'
 
@@ -59,7 +60,8 @@ export function LoginPage() {
               </span>
               <h1 className="mt-5 text-xl font-semibold">Anmelden</h1>
               <p className="mt-1 text-sm text-muted-foreground">
-                Ohne Passwort – wir senden dir einen Magic Link per E-Mail.
+                Für bestehende Konten – ohne Passwort, wir senden dir einen
+                Magic Link per E-Mail.
               </p>
               <p className="mt-3 rounded-lg bg-muted/60 p-3 text-xs text-muted-foreground">
                 Die Anmeldung brauchst du nur, um Projekte online zu speichern
@@ -67,24 +69,32 @@ export function LoginPage() {
                 exportieren funktioniert auch ohne Konto.
               </p>
               {isConfigured ? (
-                <form onSubmit={(event) => void handleSubmit(event)} className="mt-6 space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="email">E-Mail-Adresse</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      required
-                      autoFocus
-                      placeholder="du@beispiel.de"
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                    />
-                  </div>
-                  <Button type="submit" className="w-full" size="lg" disabled={sending}>
-                    {sending ? <Loader2 className="animate-spin" /> : null}
-                    Magic Link senden
-                  </Button>
-                </form>
+                <>
+                  <form onSubmit={(event) => void handleSubmit(event)} className="mt-6 space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="email">E-Mail-Adresse</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        required
+                        autoFocus
+                        placeholder="du@beispiel.de"
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
+                      />
+                    </div>
+                    <Button type="submit" className="w-full" size="lg" disabled={sending}>
+                      {sending ? <Loader2 className="animate-spin" /> : null}
+                      Magic Link senden
+                    </Button>
+                  </form>
+                  <p className="mt-6 border-t pt-4 text-center text-sm text-muted-foreground">
+                    Noch kein Zugang?{' '}
+                    <Link to="/zugang" className="font-medium text-primary hover:underline">
+                      Zugang anfragen
+                    </Link>
+                  </p>
+                </>
               ) : (
                 <p className="mt-6 rounded-lg border border-dashed p-4 text-sm text-muted-foreground">
                   Supabase ist nicht konfiguriert. Zum Aktivieren der Anmeldung
@@ -96,6 +106,7 @@ export function LoginPage() {
           )}
         </div>
       </main>
+      <Footer />
     </div>
   )
 }
