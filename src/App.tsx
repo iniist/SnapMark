@@ -4,6 +4,7 @@ import { ThemeProvider } from '@/hooks/useTheme'
 import { ToastProvider } from '@/components/ui/toaster'
 import { LandingPage } from '@/pages/LandingPage'
 import { EditorPage } from '@/pages/EditorPage'
+import { ProjectsPage } from '@/pages/ProjectsPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { ProjectPage } from '@/pages/ProjectPage'
 import { RequestAccessPage } from '@/pages/RequestAccessPage'
@@ -19,6 +20,7 @@ export function App() {
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/editor" element={<EditorPage />} />
+              <Route path="/projekte" element={<ProjectsPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/zugang" element={<RequestAccessPage />} />
               <Route path="/impressum" element={<ImpressumPage />} />
