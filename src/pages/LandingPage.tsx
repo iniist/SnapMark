@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowRight, Lock, Share2, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { AppHeader } from '@/components/layout/AppHeader'
+import { Footer } from '@/components/layout/Footer'
 
 const FEATURES = [
   {
@@ -154,9 +155,7 @@ export function LandingPage() {
           ))}
         </section>
       </main>
-      <footer className="border-t px-6 py-8 text-center text-sm text-muted-foreground">
-        Orivo – Screenshots annotieren, direkt im Browser.
-      </footer>
+      <Footer />
     </div>
   )
 }

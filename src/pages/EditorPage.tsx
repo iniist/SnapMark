@@ -11,6 +11,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/toaster'
 import { Button } from '@/components/ui/button'
 import { AppHeader } from '@/components/layout/AppHeader'
+import { Footer } from '@/components/layout/Footer'
 import { DropZone } from '@/components/editor/DropZone'
 import { Editor } from '@/components/editor/Editor'
 
@@ -206,6 +207,7 @@ export function EditorPage() {
           )
         ) : null}
       </main>
+      <Footer />
     </div>
   )
 }
