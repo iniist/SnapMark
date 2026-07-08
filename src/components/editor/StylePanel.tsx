@@ -69,7 +69,7 @@ export function StylePanel({
             className="relative h-7 w-7 cursor-pointer rounded-full border border-black/10 dark:border-white/20"
             style={{
               background:
-                'conic-gradient(#ef4444, #eab308, #22c55e, #3b82f6, #8b5cf6, #ef4444)',
+                'conic-gradient(#FF5C4C, #A80E2E, #580738, #0F397A, #55CDED, #D1E6C3, #FF5C4C)',
             }}
             title="Eigene Farbe"
           >

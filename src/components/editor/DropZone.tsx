@@ -51,17 +51,22 @@ export function DropZone({ onFileSelected, onError }: DropZoneProps) {
       onDragLeave={() => setIsDragOver(false)}
       onDrop={handleDrop}
       className={cn(
-        'flex w-full max-w-2xl cursor-pointer flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed px-8 py-16 text-center transition-colors',
+        'group flex w-full max-w-2xl cursor-pointer flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed px-8 py-16 text-center transition-all duration-300',
         isDragOver
-          ? 'border-primary bg-primary/5'
-          : 'border-border hover:border-primary/50 hover:bg-accent/50',
+          ? 'scale-[1.02] border-[#55CDED] bg-accent/60 shadow-[0_20px_50px_-20px_rgba(85,205,237,0.6)]'
+          : 'border-border hover:border-[#55CDED]/70 hover:bg-accent/50 hover:shadow-[0_16px_40px_-20px_rgba(85,205,237,0.5)]',
       )}
     >
-      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
+      <div
+        className={cn(
+          'bg-gradient-cool flex h-16 w-16 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6',
+          isDragOver && 'scale-110 rotate-6',
+        )}
+      >
         {isDragOver ? (
-          <Upload className="h-8 w-8 text-primary" />
+          <Upload className="h-8 w-8 text-[#0F397A]" />
         ) : (
-          <ImagePlus className="h-8 w-8 text-primary" />
+          <ImagePlus className="h-8 w-8 text-[#0F397A]" />
         )}
       </div>
       <div className="space-y-1">

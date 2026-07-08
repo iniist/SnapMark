@@ -8,14 +8,14 @@ export const ACCEPTED_IMAGE_TYPES = [
 
 export const ACCEPTED_FILE_EXTENSIONS = '.png,.jpg,.jpeg,.webp'
 
+// Annotationsfarben, abgeleitet aus der Orivo-Markenpalette
 export const COLOR_PALETTE = [
-  '#ef4444', // Rot
-  '#f97316', // Orange
-  '#eab308', // Gelb
-  '#22c55e', // Grün
-  '#3b82f6', // Blau
-  '#8b5cf6', // Violett
-  '#ec4899', // Pink
+  '#FF5C4C', // Ecstatic Red
+  '#A80E2E', // Amore
+  '#580738', // Tyrian Purple
+  '#0F397A', // Oxford Blue
+  '#55CDED', // Blue Radiance
+  '#D1E6C3', // Apium
   '#111827', // Schwarz
   '#ffffff', // Weiß
 ] as const
@@ -25,7 +25,7 @@ export const FONT_SIZE_RANGE = { min: 10, max: 96, step: 1 } as const
 export const OPACITY_RANGE = { min: 0.1, max: 1, step: 0.05 } as const
 
 export const DEFAULT_TOOL_STYLE: ToolStyle = {
-  color: '#ef4444',
+  color: '#FF5C4C',
   strokeWidth: 4,
   fontSize: 28,
   opacity: 1,

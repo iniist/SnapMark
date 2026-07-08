@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { LogIn, LogOut, Moon, Sun, Zap } from 'lucide-react'
+import { LogIn, LogOut, Moon, Sun } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Logo } from '@/components/Logo'
 import { useAuth } from '@/hooks/useAuth'
 import { useTheme } from '@/hooks/useTheme'
 
@@ -11,10 +12,8 @@ export function AppHeader() {
 
   return (
     <header className="flex h-16 items-center justify-between px-6 md:px-10">
-      <Link to="/" className="flex items-center gap-2 text-lg font-semibold tracking-tight">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-          <Zap className="h-4 w-4" fill="currentColor" />
-        </span>
+      <Link to="/" className="group flex items-center gap-2 text-lg font-semibold tracking-tight">
+        <Logo className="h-8 w-8 transition-transform duration-300 group-hover:rotate-[14deg] group-hover:scale-110" />
         Orivo
       </Link>
       <div className="flex items-center gap-2">

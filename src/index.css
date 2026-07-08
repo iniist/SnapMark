@@ -2,46 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Orivo-Farbwelt:
+ *   Tyrian Purple #580738 · Amore #A80E2E · Ecstatic Red #FF5C4C
+ *   Apium #D1E6C3 · Blue Radiance #55CDED · Oxford Blue #0F397A
+ */
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71% 4%;
+    --background: 200 30% 98%;
+    --foreground: 216 70% 12%;
     --card: 0 0% 100%;
-    --card-foreground: 224 71% 4%;
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 220 14% 96%;
-    --secondary-foreground: 220 9% 26%;
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 46%;
-    --accent: 220 14% 94%;
-    --accent-foreground: 220 9% 26%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 221 83% 53%;
+    --card-foreground: 216 70% 12%;
+    --primary: 216 78% 28%;
+    --primary-foreground: 200 30% 98%;
+    --secondary: 202 35% 93%;
+    --secondary-foreground: 216 55% 22%;
+    --muted: 204 28% 93%;
+    --muted-foreground: 213 18% 42%;
+    --accent: 193 55% 90%;
+    --accent-foreground: 216 60% 20%;
+    --destructive: 347 85% 36%;
+    --destructive-foreground: 200 30% 98%;
+    --border: 208 24% 87%;
+    --input: 208 24% 87%;
+    --ring: 193 81% 50%;
     --radius: 0.625rem;
+
+    /* Markenverläufe */
+    --gradient-warm: linear-gradient(120deg, #a80e2e, #ff5c4c 55%, #a80e2e);
+    --gradient-cool: linear-gradient(135deg, #d1e6c3, #55cded);
+    --gradient-text: linear-gradient(100deg, #580738, #a80e2e 45%, #ff5c4c);
   }
 
   .dark {
-    --background: 224 40% 6%;
-    --foreground: 210 40% 98%;
-    --card: 224 36% 9%;
-    --card-foreground: 210 40% 98%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 224 71% 4%;
-    --secondary: 222 24% 15%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 222 24% 15%;
-    --muted-foreground: 217 11% 65%;
-    --accent: 222 24% 18%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 222 24% 17%;
-    --input: 222 24% 17%;
-    --ring: 217 91% 60%;
+    --background: 215 55% 7%;
+    --foreground: 195 35% 95%;
+    --card: 215 48% 10%;
+    --card-foreground: 195 35% 95%;
+    --primary: 193 81% 63%;
+    --primary-foreground: 215 60% 8%;
+    --secondary: 215 36% 16%;
+    --secondary-foreground: 195 35% 95%;
+    --muted: 215 36% 15%;
+    --muted-foreground: 203 22% 68%;
+    --accent: 214 42% 20%;
+    --accent-foreground: 195 35% 95%;
+    --destructive: 5 100% 65%;
+    --destructive-foreground: 215 60% 8%;
+    --border: 215 34% 17%;
+    --input: 215 34% 17%;
+    --ring: 193 81% 63%;
+
+    --gradient-text: linear-gradient(100deg, #d1e6c3, #55cded 55%, #ff8f83);
   }
 
   * {
@@ -80,4 +93,150 @@
     0 12px,
     12px -12px,
     -12px 0;
+}
+
+@layer components {
+  /* ---------------------------------------------------------------
+   * Button-Effekte: federnder Lift bei Hover, Squish + Puls-Ring bei
+   * Klick, Lichtreflex-Sweep. Auf alle Button-Varianten angewendet.
+   * --------------------------------------------------------------- */
+  .btn-boost {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    transition:
+      transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.25s ease,
+      background-position 0.4s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+  .btn-boost:hover {
+    transform: translateY(-1.5px);
+  }
+  .btn-boost:active {
+    transform: translateY(0.5px) scale(0.95);
+    transition-duration: 0.06s;
+  }
+  /* Lichtreflex, der bei Hover einmal über den Button fegt */
+  .btn-boost::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      115deg,
+      transparent 32%,
+      rgba(255, 255, 255, 0.35) 50%,
+      transparent 68%
+    );
+    transform: translateX(-130%);
+    pointer-events: none;
+  }
+  .btn-boost:hover::before {
+    animation: btn-shine 0.65s ease;
+  }
+  /* Puls-Ring beim Klicken */
+  .btn-boost::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .btn-boost:active::after {
+    opacity: 1;
+    animation: btn-pulse 0.5s ease-out;
+  }
+
+  /* Primäre Aktion: Amore → Ecstatic Red, wandert bei Hover + glüht */
+  .btn-gradient {
+    background-image: var(--gradient-warm);
+    background-size: 230% 100%;
+    background-position: 0% 0;
+    color: #fff;
+  }
+  .btn-gradient:hover {
+    background-position: 97% 0;
+    box-shadow:
+      0 10px 26px -8px rgba(255, 92, 76, 0.65),
+      0 3px 10px -3px rgba(168, 14, 46, 0.45);
+  }
+  .btn-gradient:active {
+    box-shadow: 0 3px 10px -4px rgba(168, 14, 46, 0.5);
+  }
+
+  /* Sekundäre Flächen glühen bei Hover kühl (Blue Radiance) */
+  .btn-glow-cool:hover {
+    border-color: #55cded;
+    box-shadow: 0 8px 22px -10px rgba(85, 205, 237, 0.75);
+  }
+
+  /* Schwebende, weichgezeichnete Farbinseln für den Hero-Bereich */
+  .hero-blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(90px);
+    opacity: 0.3;
+    animation: blob-float 16s ease-in-out infinite alternate;
+  }
+  .dark .hero-blob {
+    opacity: 0.38;
+  }
+}
+
+@layer utilities {
+  /* Verlaufs-Schrift für Headlines (Light: warm, Dark: kühl) */
+  .text-gradient {
+    background-image: var(--gradient-text);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  .bg-gradient-cool {
+    background-image: var(--gradient-cool);
+  }
+  .bg-gradient-warm {
+    background-image: var(--gradient-warm);
+    background-size: 230% 100%;
+  }
+}
+
+@keyframes btn-shine {
+  from {
+    transform: translateX(-130%);
+  }
+  to {
+    transform: translateX(130%);
+  }
+}
+
+@keyframes btn-pulse {
+  from {
+    box-shadow: 0 0 0 0 rgba(85, 205, 237, 0.65);
+  }
+  to {
+    box-shadow: 0 0 0 16px rgba(85, 205, 237, 0);
+  }
+}
+
+@keyframes blob-float {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(4rem, -3rem, 0) scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-boost,
+  .btn-boost::before,
+  .btn-boost::after,
+  .hero-blob {
+    animation: none !important;
+    transition: none !important;
+  }
 }
