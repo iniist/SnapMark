@@ -1,4 +1,5 @@
-import { Check, TriangleAlert, X, type LucideIcon } from 'lucide-react'
+import { useState } from 'react'
+import { Check, ChevronDown, SlidersHorizontal, TriangleAlert, X, type LucideIcon } from 'lucide-react'
 import type { Annotation, MarkerIcon, Tool, ToolStyle } from '@/lib/types'
 import {
   COLOR_PALETTE,
@@ -46,8 +47,32 @@ export function StylePanel({
   const showFont = FONT_TOOLS.includes(tool) || selectionHasFont
   const showIcon = tool === 'icon' || selectionHasIcon
 
+  // Auf Mobil standardmäßig eingeklappt, damit die Leinwand frei bleibt
+  const [open, setOpen] = useState(false)
+
   return (
-    <div className="pointer-events-auto w-56 space-y-4 rounded-xl border bg-card/95 p-4 shadow-lg backdrop-blur">
+    <div className="pointer-events-auto w-full rounded-xl border bg-card/95 p-3 shadow-lg backdrop-blur md:w-56 md:p-4">
+      {/* Mobiler Griff zum Ein-/Ausklappen */}
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        className="flex w-full items-center justify-between gap-2 md:hidden"
+      >
+        <span className="flex items-center gap-2 text-sm font-medium">
+          <SlidersHorizontal className="h-4 w-4 text-muted-foreground" /> Stil &amp; Farbe
+        </span>
+        <ChevronDown
+          className={cn('h-4 w-4 text-muted-foreground transition-transform', open && 'rotate-180')}
+        />
+      </button>
+
+      <div
+        className={cn(
+          'space-y-4 md:block',
+          open ? 'mt-3 block max-h-[50vh] overflow-y-auto md:mt-0 md:max-h-none md:overflow-visible' : 'hidden',
+        )}
+      >
       <div className="space-y-2">
         <Label className="text-xs text-muted-foreground">Farbe</Label>
         <div className="grid grid-cols-5 gap-1.5">
@@ -169,6 +194,7 @@ export function StylePanel({
           – Entf löscht die Auswahl.
         </p>
       ) : null}
+      </div>
     </div>
   )
 }

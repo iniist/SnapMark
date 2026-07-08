@@ -13,7 +13,6 @@ import {
 import type { Tool } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 
 interface ToolDefinition {
   id: Tool
@@ -40,20 +39,25 @@ interface ToolbarProps {
 
 export function Toolbar({ tool, onSelectTool }: ToolbarProps) {
   return (
-    <div className="pointer-events-auto flex flex-col items-center gap-1 rounded-xl border bg-card/95 p-1.5 shadow-lg backdrop-blur">
+    <div className="pointer-events-auto flex flex-row items-center gap-1 rounded-xl border bg-card/95 p-1.5 shadow-lg backdrop-blur md:flex-col">
       {TOOLS.map((definition, index) => {
         const Icon = definition.icon
         const active = tool === definition.id
         return (
           <div key={definition.id} className="contents">
-            {index === 1 ? <Separator className="my-1 w-6" /> : null}
+            {index === 1 ? (
+              <div
+                role="separator"
+                className="mx-1 h-6 w-px shrink-0 bg-border md:mx-0 md:my-1 md:h-px md:w-6"
+              />
+            ) : null}
             <Button
               variant={active ? 'default' : 'ghost'}
               size="icon-lg"
               aria-label={definition.label}
               aria-pressed={active}
               title={definition.label}
-              className={cn('rounded-lg', !active && 'text-muted-foreground')}
+              className={cn('shrink-0 rounded-lg', !active && 'text-muted-foreground')}
               onClick={() => onSelectTool(definition.id)}
             >
               <Icon />
