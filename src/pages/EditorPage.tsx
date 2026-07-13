@@ -1,16 +1,19 @@
 import { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Clock, FolderOpen } from 'lucide-react'
+import { Clock, FolderOpen, MonitorUp } from 'lucide-react'
 import { loadImageFromFile } from '@/lib/export'
 import { getRecentProjects } from '@/lib/recentProjects'
+import { isScreenCaptureSupported, requestDisplayStream } from '@/lib/screenCapture'
 import { formatRelativeTime } from '@/lib/utils'
 import { isSupabaseConfigured } from '@/lib/supabase'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/toaster'
+import { Button } from '@/components/ui/button'
 import { AppHeader } from '@/components/layout/AppHeader'
 import { Footer } from '@/components/layout/Footer'
 import { DropZone } from '@/components/editor/DropZone'
 import { Editor } from '@/components/editor/Editor'
+import { ScreenCaptureDialog } from '@/components/editor/ScreenCaptureDialog'
 
 interface LoadedImage {
   image: HTMLImageElement
@@ -48,10 +51,13 @@ function RecentProjectsSection() {
   )
 }
 
+const captureSupported = isScreenCaptureSupported()
+
 export function EditorPage() {
   const { toast } = useToast()
   const { user } = useAuth()
   const [loaded, setLoaded] = useState<LoadedImage | null>(null)
+  const [captureStream, setCaptureStream] = useState<MediaStream | null>(null)
 
   const handleFileSelected = useCallback(
     async (file: File) => {
@@ -72,6 +78,27 @@ export function EditorPage() {
     [toast],
   )
 
+  const handleStartCapture = useCallback(async () => {
+    try {
+      setCaptureStream(await requestDisplayStream())
+    } catch (error) {
+      // Abbruch im Browser-Dialog ist kein Fehler
+      if (error instanceof DOMException && error.name === 'NotAllowedError') return
+      toast(
+        error instanceof Error ? error.message : 'Bildschirmaufnahme nicht möglich.',
+        'error',
+      )
+    }
+  }, [toast])
+
+  const handleCaptured = useCallback(
+    (file: File) => {
+      setCaptureStream(null)
+      void handleFileSelected(file)
+    },
+    [handleFileSelected],
+  )
+
   if (loaded) {
     return (
       <Editor
@@ -88,10 +115,20 @@ export function EditorPage() {
     <div className="flex min-h-full flex-col">
       <AppHeader />
       <main className="flex flex-1 flex-col items-center justify-center gap-8 px-6 py-12">
-        <DropZone
-          onFileSelected={(file) => void handleFileSelected(file)}
-          onError={(message) => toast(message, 'error')}
-        />
+        <div className="flex w-full max-w-2xl flex-col items-center gap-4">
+          <DropZone
+            onFileSelected={(file) => void handleFileSelected(file)}
+            onError={(message) => toast(message, 'error')}
+          />
+          {captureSupported ? (
+            <>
+              <span className="text-xs uppercase tracking-wide text-muted-foreground">oder</span>
+              <Button variant="outline" size="lg" onClick={() => void handleStartCapture()}>
+                <MonitorUp /> Bildschirm aufnehmen
+              </Button>
+            </>
+          ) : null}
+        </div>
         {isSupabaseConfigured ? (
           user ? (
             <Link
@@ -106,6 +143,16 @@ export function EditorPage() {
         ) : null}
       </main>
       <Footer />
+      {captureStream ? (
+        <ScreenCaptureDialog
+          stream={captureStream}
+          onCapture={handleCaptured}
+          onClose={() => {
+            captureStream.getTracks().forEach((track) => track.stop())
+            setCaptureStream(null)
+          }}
+        />
+      ) : null}
     </div>
   )
 }
